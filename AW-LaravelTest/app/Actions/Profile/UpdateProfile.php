@@ -28,7 +28,6 @@ class UpdateProfile
      */
     public function asController(Request $request)
     {
-        return $request;
         $this->handle($request->user(), $request->name, $request->email);
 
         return redirect()->back();

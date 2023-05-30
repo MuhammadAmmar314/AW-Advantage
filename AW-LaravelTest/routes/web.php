@@ -1,7 +1,11 @@
 <?php
 
+use App\Actions\Auth\ViewLogin;
+use App\Actions\Auth\Login;
+use App\Actions\Auth\ViewRegister;
 use App\Actions\Profile\DeleteProfile;
 use App\Actions\Auth\UpdatePassword;
+use App\Actions\Profile\EditProfile;
 use App\Actions\Profile\UpdateProfile;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
@@ -33,9 +37,16 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware('guest')->group(function(){
+    Route::get('register', ViewRegister::class)->name('register');
+    Route::get('login', ViewLogin::class)->name('login');
+    Route::post('login', Login::class);
+});
+
+
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', UpdateProfile::class)->name('UpdateProfile');
+    Route::get('/profile/edit', EditProfile::class)->name('EditProfile');
+    Route::put('/profile/update', UpdateProfile::class)->name('UpdateProfile');
     Route::put('/profile', UpdatePassword::class)->name('UpdatePassword');
     Route::delete('/profile', DeleteProfile::class)->name('DeleteProfile');
 });

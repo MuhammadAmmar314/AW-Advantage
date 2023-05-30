@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Actions\Profile;
+namespace App\Actions\Auth;
 
 use App\Models\User;
 use Inertia\Inertia;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Support\Facades\Route;
 
 /**
- * Summary of EditProfile
+ * Summary of ViewLogin
  */
-class EditProfile
+class ViewLogin
 {
     use AsAction;
     public function handle(Request $request)
     {
-        
     }
 
     /**
@@ -25,11 +25,10 @@ class EditProfile
      */
     public function asController(Request $request)
     {
-        return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+        return Inertia::render('Auth/Login', [
+            'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
         ]);
-        
     }
 }
 
